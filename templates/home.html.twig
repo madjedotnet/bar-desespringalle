@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}{{ title }}{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}bonjour comment allez vous ?
-            {% if age >= 18 %}
-                <p>vous êtes adulte</p>
-            {% else %}
-                <p>vous êtes un enfant</p>
-            {% endif %}
-        {% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+{% extends 'base.html.twig' %}
+
+{% block title %}Titre de la page home{% endblock %}
+
+{% block header %}
+<h2>Voici le header</h2>
+{% endblock %}
+
+{% block body %}
+<h1>Coucou tout le monde</h1>
+{% endblock %}
