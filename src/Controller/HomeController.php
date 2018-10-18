@@ -16,10 +16,12 @@ class HomeController extends Controller {
      * @return void
      */
     public function hello($prenom = "anonyme", $age = 0) {
-        return $this->render('hello.html.twig', [
-            'prenom' => $prenom,
-            'age' => $age
-        ]);
+        return $this->render(
+            'hello.html.twig', [
+                'prenom' => $prenom,
+                'age' => $age
+            ]
+        );
     }
 
     /**
@@ -27,10 +29,14 @@ class HomeController extends Controller {
      *
      */
     public function home() {
-        return $this->render('home.html.twig', [
-            'title' => 'Accueil', 
-            'age' => 32
-            ]);
+        $prenoms = ["Lior" => 31, "Joseph" => 12, "Anne" => 55];
+
+        return $this->render(
+            'home.html.twig', [
+                'title' => 'Accueil', 
+                'tableau' => $prenoms
+            ]
+        );
     }
 }
 

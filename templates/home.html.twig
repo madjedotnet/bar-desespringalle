@@ -3,9 +3,27 @@
 {% block title %}Titre de la page home{% endblock %}
 
 {% block header %}
-<h2>Voici le header</h2>
 {% endblock %}
 
 {% block body %}
-<h1>Coucou tout le monde</h1>
+<div class="container">
+    <div class="jumbotron mt-3">
+        <h1 class="display-3">Bienvenue sur la gallerie de la famille Bar-Desespringalle</h1>
+        <p class="lead">Vous retrouverez ici l'ensemble des photos prises lors des différents évènements familiaux, ou tout simplement les photos concernant la famille.</p>
+        <hr class="my-4">
+        <p>Vous êtes un Bar-Desespringalle ? N'hésitez pas à vous inscrire.</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="car bg-light mb-3">
+                <div class="car-header">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
