@@ -8,10 +8,13 @@
 
     <div class="row">
         {% for album in albums %}
+        {% set url = path('albums_show', {'slug': album.slug}) %}
             <div class="col-md-4">
                 <div class="card bg-light mb-3">
                     <div class="card-header text-center">
-                        {{ album.title }}
+                        <a href="{{ url }}">
+                            {{ album.title }}
+                        </a>
                         <small>par {{ album.creationUser }}</small>
                     </div>
                     <div class="card-body">
@@ -19,7 +22,7 @@
                         <p class="card-text">
                             {{ album.content }}
                         </p>
-                        <a href="#" class="btn btn-primary">En voir plus !</a>
+                        <a href="{{ url }}" class="btn btn-primary">En voir plus !</a>
                     </div>
                 </div>
             </div>

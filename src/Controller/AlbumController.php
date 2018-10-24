@@ -29,8 +29,9 @@ class AlbumController extends AbstractController
      * 
      * @return Response
      */
-    public function show($slug, AlbumRepository $repo) {
-        $album = $repo->findOneBySlug($slug);
+    public function show($slug, Album $album) 
+    {
+      //  $album = $repo->findOneBySlug($slug);
 
         return $this->render('album/show.html.twig', [
             'album' => $album
