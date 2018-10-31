@@ -2,16 +2,14 @@
 
 {% block title %}Création d'un nouvel album !{% endblock %}
 
+{% form_theme form _self %}
+
 {% block body %}
 <div class="container">
     <h1 class="my-3">Créer un nouvel album</h1>
     <div class="row">
         {{ form_start(form) }}
-        
-        <div class="form-group">
-            {{ form_label(form.title) }}
-            {{ form_widget(form.title, {'attr': {'class': 'form-control', 'placeholder': 'Titre de l\'album'}}) }}
-        </div>
+        {{ form_widget(form) }}
         
         <button type="submit" class="btn btn-primary">Créer l'album</button>
         {{ form_end(form) }}
@@ -20,3 +18,4 @@
 
 </div>
 {% endblock %}
+
