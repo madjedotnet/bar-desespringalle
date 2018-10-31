@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Album;
 use App\Repository\AlbumRepository;
+use App\Form\AlbumType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class AlbumController extends AbstractController
 {
@@ -19,6 +22,23 @@ class AlbumController extends AbstractController
 
         return $this->render('album/index.html.twig', [
             'albums' => $albums,
+        ]);
+    }
+
+    /**
+     * Permet de créer une annonce
+     * 
+     * @Route("/albums/new", name="albums_create")
+     * 
+     * @return Response
+     */
+    public function create() {
+        $album = new Album();
+
+        $form = $this->createForm(AlbumType::class, $album);
+
+        return $this->render('album/new.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 
