@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Album;
-use App\Repository\AlbumRepository;
 use App\Form\AlbumType;
+use App\Repository\AlbumRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class AlbumController extends AbstractController
 {
@@ -32,10 +35,26 @@ class AlbumController extends AbstractController
      * 
      * @return Response
      */
-    public function create() {
+    public function create(Request $request, ObjectManager $manager) {
         $album = new Album();
 
         $form = $this->createForm(AlbumType::class, $album);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($album);
+            $manager->flush();
+
+            $this->addFlash(
+                'succes',
+                "L'album <strong>{$album->getTitle()}</strong> a bien été enregistré !"
+            );
+
+            return $this->redirectToRoute('albums_show', [
+                'slug' => $album->getSlug()
+            ]);
+        }
 
         return $this->render('album/new.html.twig', [
             'form' => $form->createView()
