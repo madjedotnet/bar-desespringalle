@@ -3,11 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Album;
+use App\Form\PictureType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AlbumType extends AbstractType
 {
@@ -36,6 +38,9 @@ class AlbumType extends AbstractType
             ->add('content', TextareaType::class, $this->getConfiguration("Description", "Taper une description pour ce nouvel album !"))
             ->add('creationDate')
             ->add('creationUser')
+            ->add('pictures', CollectionType::class, [
+                'entry_type' => PictureType::class
+            ])
         ;
     }
 

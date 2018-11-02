@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Album;
+use App\Entity\Picture;
 use App\Form\AlbumType;
 use App\Repository\AlbumRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,8 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class AlbumController extends AbstractController
-{
+class AlbumController extends AbstractController {
     /**
      * @Route("/albums", name="albums_index")
      */
@@ -37,6 +37,17 @@ class AlbumController extends AbstractController
      */
     public function create(Request $request, ObjectManager $manager) {
         $album = new Album();
+        $picture = new Picture();
+        $picture2 = new Picture();
+
+        $picture->setLocation('http://placehold.it/640x420')
+            ->setCaption('Test d\'une picture');
+
+        $picture2->setLocation('http://placehold.it/420x640')
+            ->setCaption('Test d\'une picture');
+
+        $album->addPicture($picture);
+        $album->addPicture($picture2);
 
         $form = $this->createForm(AlbumType::class, $album);
 
@@ -68,10 +79,7 @@ class AlbumController extends AbstractController
      * 
      * @return Response
      */
-    public function show($slug, Album $album) 
-    {
-      //  $album = $repo->findOneBySlug($slug);
-
+    public function show($slug, Album $album) {
         return $this->render('album/show.html.twig', [
             'album' => $album
         ]);
