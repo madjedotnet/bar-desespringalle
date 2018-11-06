@@ -37,23 +37,17 @@ class AlbumController extends AbstractController {
      */
     public function create(Request $request, ObjectManager $manager) {
         $album = new Album();
-        $picture = new Picture();
-        $picture2 = new Picture();
-
-        $picture->setLocation('http://placehold.it/640x420')
-            ->setCaption('Test d\'une picture');
-
-        $picture2->setLocation('http://placehold.it/420x640')
-            ->setCaption('Test d\'une picture');
-
-        $album->addPicture($picture);
-        $album->addPicture($picture2);
 
         $form = $this->createForm(AlbumType::class, $album);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            foreach($album->getPictures() as $picture) {
+                $picture->setAlbum($album);
+                $manager->persist($picture);
+            }
+            
             $manager->persist($album);
             $manager->flush();
 

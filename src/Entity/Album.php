@@ -3,16 +3,23 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+// validation du formulaire
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AlbumRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(
+ *      fields={"title"},
+ *      message="Un album a déjà ce nom, veuillez le changer..."
+ * )
  */
-class Album
-{
+class Album {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -27,6 +34,7 @@ class Album
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, max=255, minMessage="Le titre doit faire plus de 10 caractères !", maxMessage="Le titre ne doit pas faire plus de 255 caractères !")
      */
     private $title;
 
