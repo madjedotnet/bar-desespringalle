@@ -60,6 +60,7 @@ class Album {
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="album")
+     * @Assert\Valid()
      */
     private $pictures;
 

@@ -47,7 +47,7 @@ class AlbumController extends AbstractController {
                 $picture->setAlbum($album);
                 $manager->persist($picture);
             }
-            
+
             $manager->persist($album);
             $manager->flush();
 
@@ -75,6 +75,43 @@ class AlbumController extends AbstractController {
      */
     public function show($slug, Album $album) {
         return $this->render('album/show.html.twig', [
+            'album' => $album
+        ]);
+    }
+
+    /**
+     * Permet d'afficher le formulaire d'édition
+     * 
+     * @Route("/albums/{slug}/edit", name="albums_edit")
+     *
+     * @return Response
+     */
+    public function edit(Album $album, Request $request, ObjectManager $manager) {
+        $form = $this->createForm(AlbumType::class, $album);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            foreach($album->getPictures() as $picture) {
+                $picture->setAlbum($album);
+                $manager->persist($picture);
+            }
+
+            $manager->persist($album);
+            $manager->flush();
+
+            $this->addFlash(
+                'succes',
+                "Les modifications de lalbum <strong>{$album->getTitle()}</strong> ont bien été enregistré !"
+            );
+
+            return $this->redirectToRoute('albums_show', [
+                'slug' => $album->getSlug()
+            ]);
+        }
+
+        return $this->render('album/edit.html.twig', [
+            'form' => $form->createView(),
             'album' => $album
         ]);
     }
