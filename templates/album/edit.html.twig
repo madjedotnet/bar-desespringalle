@@ -2,7 +2,7 @@
 
 {% block title %}Modification d'un album !{% endblock %}
 
-{% form_theme form _self %}
+{% form_theme form 'album/_collection.html.twig' %}
 
 {% block body %}
 <div class="container">
@@ -17,74 +17,6 @@
 </div>
 {% endblock %}
 
-{% block _album_pictures_widget %}
-    <p>Ajouter des photos</p>
-
-    {{ form_widget(form) }}
-
-    <input type="hidden" id="widgets-counter" value="0">
-
-    <div class="form-group">
-        <button type="button" id="add-picture" class="btn btn-primary">Ajouter une photo</button>
-    </div>
-{% endblock %}
-
-{% block _album_pictures_entry_row %}
-    {{ form_widget(form) }}
-{% endblock %}
-
-{% block _album_pictures_entry_widget %}
-    <div class="form-group" id="block_{{id}}">
-    <div class="row">
-        <div class="col-10">
-            <div class="row">
-                <div class="col">
-                    {{ form_widget(form.location) }}
-                    {{ form_errors(form.location) }}
-                </div>
-                <div class="col">
-                    {{ form_widget(form.caption) }}
-                    {{ form_errors(form.caption) }}
-                </div>
-                <div class="col">
-                    {{ form_widget(form.disposition) }}
-                    {{ form_errors(form.disposition) }}
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <button type="button" class="btn btn-danger" data-action="delete" data-target="#block_{{id}}">X</button>
-        </div>
-    </div>
-{% endblock %}
-
 {% block javascripts %}
-    <script>
-        $('#add-picture').click(function(){
-            // récupération du numéro des champs à créer
-            const index = +$('#widgets-counter').val();
-
-            // const index = $('#album_pictures div.form-group').length;
-            
-            // récupération du prototype des entrées
-            const tmpl = $('#album_pictures').data('prototype').replace(/__name__/g, index);
-
-            // injection du code dans la div
-            $('#album_pictures').append(tmpl);
-
-            $('widgets-counter').val(index + 1);
-
-            // gestion du bouton supprimer
-            handleDeleteButtons();
-        });
-
-        function handleDeleteButtons() {
-            $('button[data-action="delete"]').click(function() {
-                const target = this.dataset.target;
-                $(target).remove();
-            })
-        }
-
-        handleDeleteButtons();
-    </script>
+    <script src="/js/album.js"></script>
 {% endblock %}

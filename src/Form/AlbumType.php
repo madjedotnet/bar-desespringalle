@@ -57,7 +57,8 @@ class AlbumType extends AbstractType
                 'pictures', 
                 CollectionType::class, [
                     'entry_type' => PictureType::class,
-                    'allow_add' => true
+                    'allow_add' => true,
+                    'allow_delete' => true
                 ]
             )
         ;

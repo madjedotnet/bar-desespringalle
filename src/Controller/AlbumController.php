@@ -80,7 +80,7 @@ class AlbumController extends AbstractController {
     }
 
     /**
-     * Permet d'afficher le formulaire d'édition
+     * Permet d'afficher le formulaire d'édition d'album
      * 
      * @Route("/albums/{slug}/edit", name="albums_edit")
      *
@@ -102,7 +102,7 @@ class AlbumController extends AbstractController {
 
             $this->addFlash(
                 'succes',
-                "Les modifications de lalbum <strong>{$album->getTitle()}</strong> ont bien été enregistré !"
+                "Les modifications de l'album <strong>{$album->getTitle()}</strong> ont bien été enregistré !"
             );
 
             return $this->redirectToRoute('albums_show', [
