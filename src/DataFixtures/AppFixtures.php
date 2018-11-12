@@ -2,9 +2,10 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
+use App\Entity\User;
 use App\Entity\Album;
 use App\Entity\Picture;
-use Faker\Factory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -12,6 +13,24 @@ class AppFixtures extends Fixture {
     public function load(ObjectManager $manager) {
         $faker = Factory::create('FR-fr');
 
+        // Gestion des users
+        $users = [];
+
+        for($i = 1; $i <= 10; $i++) {
+            $user = new User();
+
+            $user->setFirstName($faker->firstname)
+                ->setLastName($faker->lastname)
+                ->setEmail($faker->email)
+                ->setIntroduction($faker->sentence())
+                ->setDescription($faker->paragraph(2))
+                ->setHash('password');
+
+            $manager->persist($user);
+            $users[] = $user;
+        }
+
+        // Gestion des albums
         for($i = 1 ; $i <= 30 ; $i++) {    
             $album = new Album();
             
@@ -19,12 +38,13 @@ class AppFixtures extends Fixture {
             $content = $faker->paragraph(2);
             $albumDate = $faker->dateTime($max = 'now', $timezone = null);
             $creationDate = $faker->dateTime($max = 'now', $timezone = null);
+            $user = $users[mt_rand(0,count($users) - 1)];
 
             $album->setTitle($title)
                 ->setContent($content)
-                ->setCreationUser(mt_rand(1, 7))
                 ->setAlbumDate($albumDate)
-                ->setCreationDate($creationDate);
+                ->setCreationDate($creationDate)
+                ->setAuthor($user);
 
             for($j = 1; $j <= mt_rand(2, 25); $j++) {
                 $picture = new Picture();

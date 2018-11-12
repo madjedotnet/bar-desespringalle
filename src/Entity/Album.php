@@ -54,15 +54,16 @@ class Album {
     private $creationDate;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $creationUser;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="album")
      * @Assert\Valid()
      */
     private $pictures;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="albums")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     public function __construct()
     {
@@ -136,16 +137,6 @@ class Album {
         return $this;
     }
 
-    public function getCreationUser(): ?int {
-        return $this->creationUser;
-    }
-
-    public function setCreationUser(int $creationUser): self {
-        $this->creationUser = $creationUser;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Picture[]
      */
@@ -173,6 +164,18 @@ class Album {
                 $picture->setAlbum(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

@@ -52,8 +52,6 @@ class AlbumType extends AbstractType
             ->add(
                 'creationDate')
             ->add(
-                'creationUser')
-            ->add(
                 'pictures', 
                 CollectionType::class, [
                     'entry_type' => PictureType::class,
