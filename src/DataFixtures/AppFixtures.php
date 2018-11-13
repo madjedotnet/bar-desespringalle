@@ -8,23 +8,45 @@ use App\Entity\Album;
 use App\Entity\Picture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture {
+    private $encoder;
+    public function __construct(UserPasswordEncoderInterface $encoder) {
+        $this->encoder = $encoder;
+    }
+    
     public function load(ObjectManager $manager) {
         $faker = Factory::create('FR-fr');
 
         // Gestion des users
         $users = [];
+        // $genres[] = ['female', 'male'];
 
         for($i = 1; $i <= 10; $i++) {
             $user = new User();
 
-            $user->setFirstName($faker->firstname)
+            $genre = $faker->numberBetween(1, 2);
+
+            $picture = "https://randomuser.me/api/portraits/";
+            $pictureId = $faker->numberBetween(1, 99) . '.jpg';
+
+            if($genre == 1) {
+                $picture .= 'men/' . $pictureId;
+            } 
+            else {
+                $picture .= 'women/' . $pictureId;
+            }
+
+            $hash = $this->encoder->encodePassword($user, 'password');
+
+            $user->setFirstName($faker->firstname($genre))
                 ->setLastName($faker->lastname)
                 ->setEmail($faker->email)
                 ->setIntroduction($faker->sentence())
                 ->setDescription($faker->paragraph(2))
-                ->setHash('password');
+                ->setHash($hash)
+                ->setPicture($picture);
 
             $manager->persist($user);
             $users[] = $user;
