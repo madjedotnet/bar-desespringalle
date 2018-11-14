@@ -7,10 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+// validation du formulaire
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *  fields={"email"}, 
+ *  message="Cette adresse mail est déjà utilisée"
+ * )
  */
 class User implements UserInterface {
     /**
@@ -22,21 +29,25 @@ class User implements UserInterface {
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez entrer votre nom de famille !")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez entrer votre prénom !")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message="Veuillez entrer une adresse mail valide !")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message="Url de votre photo de profil incorrecte !")
      */
     private $picture;
 
@@ -44,6 +55,11 @@ class User implements UserInterface {
      * @ORM\Column(type="string", length=255)
      */
     private $hash;
+
+    /**
+     * @Assert\EqualTo(propertyPath="hash", message="Les mots de passe saisis sont différents !")
+     */
+    public $passwordConfirm;
 
     /**
      * @ORM\Column(type="string", length=255)
