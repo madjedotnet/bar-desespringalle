@@ -8,24 +8,7 @@
 
     <div class="row">
         {% for album in albums %}
-        {% set url = path('albums_show', {'slug': album.slug}) %}
-            <div class="col-md-4">
-                <div class="card bg-light mb-3">
-                    <div class="card-header text-center">
-                        <a href="{{ url }}">
-                            {{ album.title }}
-                        </a>
-                        <small>par</small>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">{{ album.albumDate|date('d-m-Y H:i:s') }}</h4>
-                        <p class="card-text">
-                            {{ album.content }}
-                        </p>
-                        <a href="{{ url }}" class="btn btn-primary">En voir plus !</a>
-                    </div>
-                </div>
-            </div>
+            {% include 'album/_album.html.twig' %}
         {% endfor %}
     </div>
 </div>

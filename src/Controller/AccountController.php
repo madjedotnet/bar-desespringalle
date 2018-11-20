@@ -16,8 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class AccountController extends AbstractController
-{
+class AccountController extends AbstractController {
     /**
      * Permet d'afficher et de gérer le formulaire de connexion
      * 

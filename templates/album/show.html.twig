@@ -20,15 +20,17 @@
             {{ album.content }}
         </div>
         <div class="col">
-            <div class="row">
-                <div class="col-4">
-                    <img src="http://placehold.il/64x64" alt="Avatar de ">
+            {% set a = album.author %}
+            <div class="row mb-3 align-items-center">
+                <div class="col-3">
+                    <img src="{{a.picture}}" class="avatar avatar-medium" alt="Avatar de {{a.firstname}}">
                 </div>
                 <div class="col">
-                    
-                    <span class="badge badge-primary"></span>
+                    <h3>{{a.fullName}}</h3>
+                    <span class="badge badge-primary">{{a.albums | length}} annonces</span>
                 </div>
             </div>
+            <p>{{a.description | raw}}</p>
         </div>
     </div>
     <div class="row">
