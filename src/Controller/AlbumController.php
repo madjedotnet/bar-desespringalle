@@ -48,6 +48,8 @@ class AlbumController extends AbstractController {
                 $manager->persist($picture);
             }
 
+            $album->setAuthor($this->getUser());
+
             $manager->persist($album);
             $manager->flush();
 
