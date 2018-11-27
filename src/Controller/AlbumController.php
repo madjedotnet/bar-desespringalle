@@ -7,12 +7,14 @@ use App\Entity\Picture;
 use App\Form\AlbumType;
 use App\Repository\AlbumRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AlbumController extends AbstractController {
@@ -32,6 +34,7 @@ class AlbumController extends AbstractController {
      * Permet de créer une annonce
      * 
      * @Route("/albums/new", name="albums_create")
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
@@ -85,6 +88,7 @@ class AlbumController extends AbstractController {
      * Permet d'afficher le formulaire d'édition d'album
      * 
      * @Route("/albums/{slug}/edit", name="albums_edit")
+     * @Security("is_granted('ROLE_USER') and user === album.getAuthor()", message="Cette album ne vous appartient pas, vous ne pouvez pas le modifier...")
      *
      * @return Response
      */
