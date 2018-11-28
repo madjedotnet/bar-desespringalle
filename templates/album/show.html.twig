@@ -5,22 +5,27 @@
 {% endblock %}
 
 {% block body %}
+            {% set a = album.author %}
 
 <div class="ad-title" style="">
     <div class="container">
         <h1>{{ album.title }}</h1>
-        <p>{{ album.content }} le {{ album.albumDate|date('d-m-Y H:i:s') }}</p>
-        par 
+        <p>{{ album.content }}</p>
+        Album créé le {{ album.albumDate|date('d-m-Y H:i:s') }} par {{a.firstname}}</p>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
         <div class="col-md-8 mb-3">
-            {{ album.content }}
+            <p>{{ album.content }}</p>
+            {% if app.user and app.user == album.author %}
+                <a href="{{ path('albums_edit', {'slug': album.slug}) }}" class="btn btn-secondary">Modifier</a>
+                <a href="{{ path('albums_delete', {'slug': album.slug}) }}" class="btn btn-danger" 
+                onclick="return confirm(‘Etes-vous sûr de vouloir supprimer l'album : {{album.title}} ?‘)">Supprimer l'album</a>
+            {% endif %}    
         </div>
         <div class="col">
-            {% set a = album.author %}
             <div class="row mb-3 align-items-center">
                 <div class="col-3">
                     <a href="{{ path('user_show', {'slug': a.slug}) }}">

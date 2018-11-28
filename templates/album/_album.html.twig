@@ -13,6 +13,9 @@
                 {{ album.content }}
             </p>
             <a href="{{ url }}" class="btn btn-primary">En voir plus !</a>
+            {% if app.user and app.user == album.author %}
+                <a href="{{ path('albums_edit', {'slug': album.slug}) }}" class="btn btn-secondary">Modifier</a>
+            {% endif %}  
         </div>
     </div>
 </div>

@@ -121,4 +121,27 @@ class AlbumController extends AbstractController {
             'album' => $album
         ]);
     }
+
+    
+    /**
+     * Permet de supprimer un album
+     * 
+     * @Route("/albums/{slug}/delete", name="albums_delete")
+     * @Security("is_granted('ROLE_USER') and user == album.getAuthor()", message="Vous n'avez pas le droit d'accèder à cette ressource !")
+     * 
+     * @param Album $album
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Album $album, ObjectManager $manager) {
+        $manager->remove($album);
+        $manager->flush();
+
+        $this->addFlash(
+            'succes', 
+            "L'album <strong>{$album->getTitle()}</strong> a bien été supprimé !"
+        );
+
+        return $this->redirectToRoute("albums_index");
+    }
 }
