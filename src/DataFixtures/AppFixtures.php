@@ -6,6 +6,7 @@ use Faker\Factory;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Album;
+use App\Entity\Comment;
 use App\Entity\Picture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -109,6 +110,16 @@ class AppFixtures extends Fixture {
                     ->setAlbum($album);
 
                 $manager->persist($picture);
+            }
+
+            if(mt_rand(0, 1)) {
+                $comment = new Comment();
+
+                $comment->setContent($faker->paragraph())
+                    ->setAuthor($user)
+                    ->setAlbum($album);
+
+                $manager->persist($comment);
             }
 
             $manager->persist($album);

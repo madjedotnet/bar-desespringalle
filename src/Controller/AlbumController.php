@@ -88,7 +88,7 @@ class AlbumController extends AbstractController {
      * Permet d'afficher le formulaire d'édition d'album
      * 
      * @Route("/albums/{slug}/edit", name="albums_edit")
-     * @Security("is_granted('ROLE_USER') and user === album.getAuthor()", message="Cette album ne vous appartient pas, vous ne pouvez pas le modifier...")
+     * @Security("is_granted('ROLE_USER') and user === album.getAuthor()", message="Cet album ne vous appartient pas, vous ne pouvez pas le modifier...")
      *
      * @return Response
      */

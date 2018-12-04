@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vous n'avez pas le droit de modifier cet album{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Vous n'êtes pas le créateur de l'album !</h1>
+        <p>Vous ne pouvez pas modifier cet album photo...</p>
+        <p>{{ exception.message }}</p>
+        <a href="{{ path('homepage') }}" class="btn btn-primary">Retour à l'accueil</a>
+    </div>
+{% endblock %}

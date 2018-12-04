@@ -65,9 +65,14 @@ class Album {
      */
     private $author;
 
-    public function __construct()
-    {
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="album", orphanRemoval=true)
+     */
+    private $comments;
+
+    public function __construct() {
         $this->pictures = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -140,13 +145,11 @@ class Album {
     /**
      * @return Collection|Picture[]
      */
-    public function getPictures(): Collection
-    {
+    public function getPictures(): Collection {
         return $this->pictures;
     }
 
-    public function addPicture(Picture $picture): self
-    {
+    public function addPicture(Picture $picture): self {
         if (!$this->pictures->contains($picture)) {
             $this->pictures[] = $picture;
             $picture->setAlbum($this);
@@ -155,8 +158,7 @@ class Album {
         return $this;
     }
 
-    public function removePicture(Picture $picture): self
-    {
+    public function removePicture(Picture $picture): self {
         if ($this->pictures->contains($picture)) {
             $this->pictures->removeElement($picture);
             // set the owning side to null (unless already changed)
@@ -168,14 +170,40 @@ class Album {
         return $this;
     }
 
-    public function getAuthor(): ?User
-    {
+    public function getAuthor(): ?User {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
-    {
+    public function setAuthor(?User $author): self {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAlbum() === $this) {
+                $comment->setAlbum(null);
+            }
+        }
 
         return $this;
     }
