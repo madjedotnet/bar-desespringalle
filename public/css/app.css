@@ -28,3 +28,7 @@ div.album-title h1, div.album-title p {
     max-width: 24px;
     max-height: 24px;
 }
+
+span.like i {
+    color: lightskyblue;
+}

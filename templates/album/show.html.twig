@@ -54,25 +54,32 @@
         <h4 class="alert-heading text-center">
             <div class="row align-items-center">
                 <div class="col">
-                    <i class="far fa-smile-beam"></i>
+                    <span class="like"><i class="far fa-smile-beam"></i></span>
                 </div>
             </div>
         </h4>
     </div>
     <hr>
-    {% if album.comments|length > 0 %}
-        <h2 class="mb-3">Commentaires :</h2>
-        {% for comment in album.comments %}
-            <div class="bg-light rounded mb-3 py-3 px-3">
-                <strong>{{ comment.author.fullName }} : </strong>
-                <blockquote>
-                    {{comment.content}}
-                    <!-- TODO prévoir l'ajout des likes sur les commentaires - template 'like.html.twig' -->
-                </blockquote>
-            </div>
-        {% endfor %}
-    {% else %}
+    <div class="alert alert-light">
+        <h2 class="mb-3">Laissez un commentaire :</h2>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-success">Commenter !</button>
+            {{ form_end(form) }}
+        {% if album.comments|length > 0 %}
+            <h2 class="mb-3">Commentaires :</h2>
+            {% for comment in album.comments %}
+                <div class="bg-light rounded mb-3 py-3 px-3">
+                    <strong>{{ comment.author.firstname }} : </strong>
+                    <blockquote>
+                        {{comment.content}}
+                        <!-- TODO prévoir l'ajout des likes sur les commentaires - template 'like.html.twig' -->
+                    </blockquote>
+                </div>
+            {% endfor %}
+        {% else %}
 
-    {% endif %}
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

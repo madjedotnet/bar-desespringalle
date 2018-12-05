@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Album;
+use App\Entity\Comment;
 use App\Entity\Picture;
 use App\Form\AlbumType;
+use App\Form\CommentType;
 use App\Repository\AlbumRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -76,11 +78,33 @@ class AlbumController extends AbstractController {
      * 
      * @Route("/albums/{slug}", name="albums_show")
      * 
+     * @param Album $album
+     * @param Request $request
+     * @param ObjectManager $manager
      * @return Response
      */
-    public function show($slug, Album $album) {
+    public function show($slug, Album $album, Request $request, ObjectManager $manager) {
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $comment->setAlbum($album)
+                ->setAuthor($this->getUser());
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            $this->addFlash(
+                'success', 
+                "Votre commentaire a été ajouté..."
+            );
+        }
+
         return $this->render('album/show.html.twig', [
-            'album' => $album
+            'album' => $album,
+            'form' => $form->createView()
         ]);
     }
 
