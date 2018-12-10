@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des albums !{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="my-5">Gestion des albums</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">Titre</th>
+                <th class="text-center">Auteur</th>
+                <th class="text-center">Date de création</th>
+                <th class="text-center">Nb. photos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for album in albums %}
+            <tr>
+                <td>{{album.id}}</td>
+                <td>{{album.title}}</td>
+                <td><img src="{{album.author.picture}}" alt="Avatar de {{album.author.fullName}}" class="avatar avatar-mini mr-2"></i>{{album.author.fullName}}</td>
+                <td class="text-center">{{album.creationDate|date('d-m-Y H:i:s')}}</td>
+                <td class="text-center">{{album.pictures | length}}</td>
+                <td class="text-center">
+                    <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

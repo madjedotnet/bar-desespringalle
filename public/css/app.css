@@ -29,6 +29,11 @@ div.album-title h1, div.album-title p {
     max-height: 24px;
 }
 
+.avatar-micro {
+    max-width: 16px;
+    max-height: 16px;
+}
+
 span.like i {
     color: lightskyblue;
 }
