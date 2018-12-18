@@ -1,0 +1,35 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des commentaires !{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="my-5">Gestion des commentaires</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">Auteur</th>
+                <th class="text-center">Commentaire</th>
+                <th class="text-center">Date de création</th>
+                <th class="text-center">Titre de l'album</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comment in comments %}
+            <tr>
+                <td>{{comment.id}}</td>
+                <td>{{comment.author.firstName}}</td>
+                <td>{{comment.content}}</td>
+                <td class="text-center">{{comment.createdAt|date('d-m-Y H:i:s')}}</td>
+                <td class="text-center">{{comment.getAlbum.id}}</td>
+                <td class="text-center">
+                    <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

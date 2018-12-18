@@ -12,8 +12,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Album[]    findAll()
  * @method Album[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AlbumRepository extends ServiceEntityRepository
-{
+class AlbumRepository extends ServiceEntityRepository {
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Album::class);

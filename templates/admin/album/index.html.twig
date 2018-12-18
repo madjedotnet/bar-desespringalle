@@ -25,7 +25,7 @@
                 <td class="text-center">{{album.pictures | length}}</td>
                 <td class="text-center">
                     <a href="{{ path('admin_albums_edit', {'id': album.id}) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                    <a href="{{ path('admin_albums_delete', {'id': album.id}) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
             {% endfor %}

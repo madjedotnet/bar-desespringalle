@@ -113,7 +113,10 @@ class AlbumController extends AbstractController {
      * 
      * @Route("/albums/{slug}/edit", name="albums_edit")
      * @Security("is_granted('ROLE_USER') and user === album.getAuthor()", message="Cet album ne vous appartient pas, vous ne pouvez pas le modifier...")
-     *
+     * 
+     * @param Album $album
+     * @param Request $request
+     * @param ObjectManager $manager
      * @return Response
      */
     public function edit(Album $album, Request $request, ObjectManager $manager) {
