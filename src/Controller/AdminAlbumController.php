@@ -33,7 +33,7 @@ class AdminAlbumController extends AbstractController
      */
     public function edit(Album $album, Request $request, ObjectManager $manager) {
         $form = $this->createForm(AlbumType::class, $album);
-dump($request);
+//dump($request);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
