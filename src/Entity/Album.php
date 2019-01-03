@@ -54,7 +54,7 @@ class Album {
     private $creationDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="album")
+     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="album", orphanRemoval=true)
      * @Assert\Valid()
      */
     private $pictures;

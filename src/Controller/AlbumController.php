@@ -125,6 +125,7 @@ class AlbumController extends AbstractController {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            dump($album);
             foreach($album->getPictures() as $picture) {
                 $picture->setAlbum($album);
                 $manager->persist($picture);
@@ -134,7 +135,7 @@ class AlbumController extends AbstractController {
             $manager->flush();
 
             $this->addFlash(
-                'succes',
+                'success',
                 "Les modifications de l'album <strong>{$album->getTitle()}</strong> ont bien été enregistré !"
             );
 
