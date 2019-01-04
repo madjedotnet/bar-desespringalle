@@ -10,14 +10,23 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class AdminAlbumController extends AbstractController
-{
+class AdminAlbumController extends AbstractController {
     /**
-     * @Route("/admin/albums", name="admin_albums_index")
+     * @Route("/admin/albums/{page<\d+>?1}", name="admin_albums_index")
      */
-    public function index(AlbumRepository $repo) {
+    public function index(AlbumRepository $repo, $page) {
+        $limit = 10;
+
+        $start = $page * $limit - $limit;
+
+        $total = count($repo->findAll());
+
+        $pages = ceil($total / $limit); // 3.4 -> 4
+
         return $this->render('admin/album/index.html.twig', [
-            'albums' => $repo->findAll()
+            'albums' => $repo->findBy([], [], $limit, $start),
+            'pages' => $pages,
+            'page' => $page
         ]);
     }
 
