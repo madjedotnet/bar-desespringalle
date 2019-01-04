@@ -55,4 +55,25 @@ class AdminCommentController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/admin/comments/{id}/delete", name="admin_comment_delete")
+     * 
+     * @param Comment $comment
+     * @param Request $request
+     * @param ObjectManager $manager
+     * 
+     * @return Response
+     */
+    public function delete(Comment $comment, Request $request, ObjectManager $manager) {
+        $manager->remove($comment);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "Le commentaire a bien été supprimé !"
+        );
+
+        return $this->redirectToRoute('admin_comment_index');
+    }
 }
