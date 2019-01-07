@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Album;
 use App\Form\AlbumType;
+use App\Service\Paginator;
 use App\Repository\AlbumRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -14,19 +15,14 @@ class AdminAlbumController extends AbstractController {
     /**
      * @Route("/admin/albums/{page<\d+>?1}", name="admin_albums_index")
      */
-    public function index(AlbumRepository $repo, $page) {
-        $limit = 10;
+    public function index(AlbumRepository $repo, $page, Paginator $paginator) {
 
-        $start = $page * $limit - $limit;
-
-        $total = count($repo->findAll());
-
-        $pages = ceil($total / $limit); // 3.4 -> 4
+        $paginator->setEntityClass(Album::class)
+            ->setPage($page)
+            ->setLimit(20);
 
         return $this->render('admin/album/index.html.twig', [
-            'albums' => $repo->findBy([], [], $limit, $start),
-            'pages' => $pages,
-            'page' => $page
+            'paginator' => $paginator
         ]);
     }
 

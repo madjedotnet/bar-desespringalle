@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for comment in comments %}
+            {% for comment in paginator.data %}
             <tr>
                 <td>
                     <img src="{{comment.author.picture}}" alt="" class="avatar avatar-micro">
@@ -32,5 +32,24 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="d-flex justify-content-center">
+        {% set page = paginator.page %}
+        {% set pages = paginator.pages %}
+        <ul class="pagination">
+            <li class="page-item {% if page == 1 %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('admin_comment_index', {'page': page - 1}) }}">&laquo;</a>
+            </li>
+
+            {% for i in 1..pages %}
+                <li class="page-item {% if page == i %}active{% endif %}">
+                    <a class="page-link" href="{{ path('admin_comment_index', {'page': i}) }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+
+            <li class="page-item {% if page == pages %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('admin_comment_index', {'page': page + 1}) }}">&raquo;</a>
+            </li>
+        </ul>
+    </div>
 </div>
 {% endblock %}
