@@ -52,6 +52,9 @@ class Paginator {
     }
 
     public function getData() {
+        if(empty($this->entityClass)) {
+            throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle paginer... Utilisez la méthode setEntityClass() de votre objet Paginator !");
+        }
         // 1 calcul de l'offset - start
         $offset = $this->currentPage * $this->limit - $this->limit;
 
@@ -69,6 +72,9 @@ class Paginator {
      * @return void
      */
     public function getPages() {
+        if(empty($this->entityClass)) {
+            throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle paginer... Utilisez la méthode setEntityClass() de votre objet Paginator !");
+        }
         // 1 connaitre le nombre total d'enregistrement
         $repo = $this->manager->getRepository($this->entityClass);
         $total = count($repo->findAll());
