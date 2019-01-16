@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Statistics;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,15 +12,15 @@ class AdminDashboardController extends AbstractController
     /**
      * @Route("/admin", name="admin_dashboard")
      */
-    public function index(ObjectManager $manager) {
-        $users = $manager->createQuery('SELECT COUNT(u) FROM App\Entity\User u')->getSingleScalarResult();
-        $albums = $manager->createQuery('SELECT COUNT(a) FROM App\Entity\Album a')->getSingleScalarResult();
-        $comments = $manager->createQuery('SELECT COUNT(c) FROM App\Entity\Comment c')->getSingleScalarResult();
-
+    public function index(ObjectManager $manager, Statistics $statistics) {
+        $stats = $statistics->getStats();
+        $bestAlbums = $statistics->getAlbumsStats('DESC');
+        $worstAlbums = $statistics->getAlbumsStats('ASC');
 
         return $this->render('admin/dashboard/index.html.twig', [
-            'controller_name' => 'AdminDashboardController',
-            'stats' => compact('users', 'albums', 'comments')
+            'stats' => $stats, 
+            'bestAlbums' => $bestAlbums,
+            'worstAlbums' => $worstAlbums
         ]);
     }
 

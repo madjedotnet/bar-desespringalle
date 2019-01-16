@@ -62,6 +62,57 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-success">
+                <h2 class="alert-heading my-3"><i class="fas fa-arrow-up"></i> Les meilleurs albums</h2>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Albums</th>
+                            <th>Créateur</th>
+                            <th>Nombre de commentaires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for album in bestAlbums %}
+                            <tr>
+                                <td>{{album.id}}</td>
+                                <td><img src="{{album.picture}}" alt="" class="avatar avatar-micro"> {{album.firstName}}</td>
+                                <td class="text-center">
+                                    <span class="badge badge-dark">{{album.compte}}</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col">
+            <div class="alert alert-danger">
+                <h2 class="alert-heading my-3"><i class="fas fa-arrow-down"></i> Les pires albums</h2>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Albums</th>
+                            <th>Créateur</th>
+                            <th>Nombre de commentaires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for album in worstAlbums %}
+                            <tr>
+                                <td>{{album.id}}</td>
+                                <td><img src="{{album.picture}}" alt="" class="avatar avatar-micro"> {{album.firstName}}</td>
+                                <td class="text-center">
+                                    <span class="badge badge-dark">{{album.compte}}</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
