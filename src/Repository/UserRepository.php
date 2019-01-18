@@ -47,4 +47,15 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findBestUsers($limit = 2) {
+        return $this->createQueryBuilder('u')
+            ->join('u.albums', 'a')
+            ->select('u as user, COUNT(a.id) as compte')
+            ->groupBy('u')
+            ->orderBy('compte', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -16,7 +16,6 @@ class AdminAlbumController extends AbstractController {
      * @Route("/admin/albums/{page<\d+>?1}", name="admin_albums_index")
      */
     public function index(AlbumRepository $repo, $page, Paginator $paginator) {
-
         $paginator->setEntityClass(Album::class)
             ->setPage($page)
             ->setLimit(20);

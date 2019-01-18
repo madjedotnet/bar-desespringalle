@@ -46,4 +46,20 @@ class AlbumRepository extends ServiceEntityRepository {
         ;
     }
     */
+
+    // public function findMostRecentAlbums($limit) {
+    //     return $this->createQueryBuildre('a')
+    //         ->select()
+    // }
+
+    public function findBestAlbums($limit) {
+        return $this->createQueryBuilder('a')
+            ->select('a as album, COUNT(c.id) as compte')
+            ->join('a.comments', 'c')
+            ->groupBy('a')
+            ->orderBy('compte', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }
