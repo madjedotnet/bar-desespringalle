@@ -11,15 +11,20 @@ use App\Entity\Picture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Entity\AlbumLike;
 
-class AppFixtures extends Fixture {
+class AppFixtures extends Fixture
+{
     private $encoder;
-    public function __construct(UserPasswordEncoderInterface $encoder) {
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
         $this->encoder = $encoder;
     }
-    
-    public function load(ObjectManager $manager) {
+
+    public function load(ObjectManager $manager)
+    {
         $faker = Factory::create('FR-fr');
+        $users = [];
 
         $adminRole = new Role();
         $adminRole->setTitle('ROLE_ADMIN');
@@ -37,11 +42,12 @@ class AppFixtures extends Fixture {
 
         $manager->persist($adminUser);
 
+        $users[] = $adminUser;
         // Gestion des users
-        $users = [];
+//        $users = [];
         // $genres = ['female', 'male'];
 
-        for($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $user = new User();
 
             $genre = $faker->numberBetween(1, 2);
@@ -49,10 +55,9 @@ class AppFixtures extends Fixture {
             $picture = "https://randomuser.me/api/portraits/";
             $pictureId = $faker->numberBetween(1, 99) . '.jpg';
 
-            if($genre == 1) {
+            if ($genre == 1) {
                 $picture .= 'men/' . $pictureId;
-            } 
-            else {
+            } else {
                 $picture .= 'women/' . $pictureId;
             }
 
@@ -71,14 +76,14 @@ class AppFixtures extends Fixture {
         }
 
         // Gestion des albums
-        for($i = 1 ; $i <= 30 ; $i++) {    
+        for ($i = 1; $i <= 150; $i++) {
             $album = new Album();
-            
+
             $title = $faker->sentence(5);
             $content = $faker->paragraph(2);
             $albumDate = $faker->dateTime($max = 'now', $timezone = null);
             $creationDate = $faker->dateTime($max = 'now', $timezone = null);
-            $user = $users[mt_rand(0,count($users) - 1)];
+            $user = $users[mt_rand(0, count($users) - 1)];
 
             $album->setTitle($title)
                 ->setContent($content)
@@ -86,15 +91,15 @@ class AppFixtures extends Fixture {
                 ->setCreationDate($creationDate)
                 ->setAuthor($user);
 
-            for($j = 1; $j <= mt_rand(2, 25); $j++) {
+            for ($j = 1; $j <= mt_rand(2, 40); $j++) {
                 $picture = new Picture();
 
                 $iDisposition = mt_rand(0, 2);
                 $disposition = "portait";
-                if($iDisposition == 0) {
+                if ($iDisposition == 0) {
                     $location = $faker->imageUrl($width = 480, $height = 640);
                     $disposition = "portait";
-                } else if($iDisposition == 1) {
+                } else if ($iDisposition == 1) {
                     $location = $faker->imageUrl($width = 640, $height = 480);
                     $disposition = "landscape";
                 } else {
@@ -112,7 +117,15 @@ class AppFixtures extends Fixture {
                 $manager->persist($picture);
             }
 
-            if(mt_rand(0, 1)) {
+            for ($k = 0; $k < mt_rand(0, 10); $k++) {
+                $like = new AlbumLike();
+                $like->setAlbum($album)
+                    ->setUser($faker->randomElement($users));
+
+                $manager->persist($like);
+            }
+
+            if (mt_rand(0, 1)) {
                 $comment = new Comment();
 
                 $comment->setContent($faker->paragraph())
@@ -124,7 +137,7 @@ class AppFixtures extends Fixture {
 
             $manager->persist($album);
         }
-        
+
         $manager->flush();
     }
 }

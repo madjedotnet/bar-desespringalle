@@ -53,10 +53,10 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-4">
-                            <i class="far fa-comments fa-3x"></i>
+                            <i class="fas fa-heart fa-3x"></i>
                         </div>
                         <div class="col-8">
-                            <h4 class="card-title"> à rajouter</h4>
+                            <h4 class="card-title">{{ stats.likes }} likes</h4>
                         </div>
                     </div>
                 </div>
@@ -77,13 +77,13 @@
                     </thead>
                     <tbody>
                         {% for album in bestAlbums %}
-                            <tr>
-                                <td>{{album.id}}</td>
-                                <td><img src="{{album.picture}}" alt="" class="avatar avatar-micro"> {{album.firstName}}</td>
-                                <td class="text-center">
-                                    <span class="badge badge-dark">{{album.compte}}</span>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>{{album.id}}</td>
+                            <td><img src="{{album.picture}}" alt="" class="avatar avatar-micro"> {{album.firstName}}</td>
+                            <td class="text-center">
+                                <span class="badge badge-dark">{{album.compte}}</span>
+                            </td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -102,13 +102,13 @@
                     </thead>
                     <tbody>
                         {% for album in worstAlbums %}
-                            <tr>
-                                <td>{{album.id}}</td>
-                                <td><img src="{{album.picture}}" alt="" class="avatar avatar-micro"> {{album.firstName}}</td>
-                                <td class="text-center">
-                                    <span class="badge badge-dark">{{album.compte}}</span>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>{{album.id}}</td>
+                            <td><img src="{{album.picture}}" alt="" class="avatar avatar-micro"> {{album.firstName}}</td>
+                            <td class="text-center">
+                                <span class="badge badge-dark">{{album.compte}}</span>
+                            </td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>

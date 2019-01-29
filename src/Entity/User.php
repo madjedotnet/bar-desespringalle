@@ -91,11 +91,17 @@ class User implements UserInterface {
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AlbumLike", mappedBy="user")
+     */
+    private $albumLikes;
+
     public function __construct()
     {
         $this->albums = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->albumLikes = new ArrayCollection();
     }
 
     public function getFullName() {
@@ -324,6 +330,37 @@ class User implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AlbumLike[]
+     */
+    public function getAlbumLikes(): Collection
+    {
+        return $this->albumLikes;
+    }
+
+    public function addAlbumLike(AlbumLike $albumLike): self
+    {
+        if (!$this->albumLikes->contains($albumLike)) {
+            $this->albumLikes[] = $albumLike;
+            $albumLike->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlbumLike(AlbumLike $albumLike): self
+    {
+        if ($this->albumLikes->contains($albumLike)) {
+            $this->albumLikes->removeElement($albumLike);
+            // set the owning side to null (unless already changed)
+            if ($albumLike->getUser() === $this) {
+                $albumLike->setUser(null);
             }
         }
 

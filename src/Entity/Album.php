@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 // validation du formulaire
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -19,7 +20,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      message="Un album a déjà ce nom, veuillez le changer..."
  * )
  */
-class Album {
+class Album
+{
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -70,9 +72,16 @@ class Album {
      */
     private $comments;
 
-    public function __construct() {
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AlbumLike", mappedBy="album")
+     */
+    private $likes;
+
+    public function __construct()
+    {
         $this->pictures = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     /**
@@ -81,62 +90,74 @@ class Album {
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function initializeSlug() {
-        if(empty($this->slug)) {
+    public function initializeSlug()
+    {
+        if (empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->title);
         }
     }
 
-    public function getId(): ?int {
+    public function getId() : ? int
+    {
         return $this->id;
     }
 
-    public function getTitle(): ?string {
+    public function getTitle() : ? string
+    {
         return $this->title;
     }
 
-    public function setTitle(string $title): self {
+    public function setTitle(string $title) : self
+    {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getSlug(): ?string {
+    public function getSlug() : ? string
+    {
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self {
+    public function setSlug(string $slug) : self
+    {
         $this->slug = $slug;
 
         return $this;
     }
 
-    public function getContent(): ?string {
+    public function getContent() : ? string
+    {
         return $this->content;
     }
 
-    public function setContent(string $content): self {
+    public function setContent(string $content) : self
+    {
         $this->content = $content;
 
         return $this;
     }
 
-    public function getAlbumDate(): ?\DateTimeInterface {
+    public function getAlbumDate() : ? \DateTimeInterface
+    {
         return $this->albumDate;
     }
 
-    public function setAlbumDate(\DateTimeInterface $albumDate): self {
+    public function setAlbumDate(\DateTimeInterface $albumDate) : self
+    {
         $this->albumDate = $albumDate;
 
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface {
+    public function getCreationDate() : ? \DateTimeInterface
+    {
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTimeInterface $creationDate): self {
+    public function setCreationDate(\DateTimeInterface $creationDate) : self
+    {
         $this->creationDate = $creationDate;
 
         return $this;
@@ -145,11 +166,13 @@ class Album {
     /**
      * @return Collection|Picture[]
      */
-    public function getPictures(): Collection {
+    public function getPictures() : Collection
+    {
         return $this->pictures;
     }
 
-    public function addPicture(Picture $picture): self {
+    public function addPicture(Picture $picture) : self
+    {
         if (!$this->pictures->contains($picture)) {
             $this->pictures[] = $picture;
             $picture->setAlbum($this);
@@ -158,7 +181,8 @@ class Album {
         return $this;
     }
 
-    public function removePicture(Picture $picture): self {
+    public function removePicture(Picture $picture) : self
+    {
         if ($this->pictures->contains($picture)) {
             $this->pictures->removeElement($picture);
             // set the owning side to null (unless already changed)
@@ -170,11 +194,13 @@ class Album {
         return $this;
     }
 
-    public function getAuthor(): ?User {
+    public function getAuthor() : ? User
+    {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self {
+    public function setAuthor(? User $author) : self
+    {
         $this->author = $author;
 
         return $this;
@@ -183,11 +209,13 @@ class Album {
     /**
      * @return Collection|Comment[]
      */
-    public function getComments(): Collection {
+    public function getComments() : Collection
+    {
         return $this->comments;
     }
 
-    public function addComment(Comment $comment): self {
+    public function addComment(Comment $comment) : self
+    {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
             $comment->setAlbum($this);
@@ -196,7 +224,8 @@ class Album {
         return $this;
     }
 
-    public function removeComment(Comment $comment): self {
+    public function removeComment(Comment $comment) : self
+    {
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
@@ -206,5 +235,53 @@ class Album {
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|AlbumLike[]
+     */
+    public function getLikes() : Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(AlbumLike $like) : self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(AlbumLike $like) : self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+            // set the owning side to null (unless already changed)
+            if ($like->getAlbum() === $this) {
+                $like->setAlbum(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Permet de savoir si l'utilisateur aime un album
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function isLikedByUser(User $user) : bool
+    {
+        foreach ($this->likes as $like) {
+            if ($like->getUser() === $user) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

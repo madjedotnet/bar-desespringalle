@@ -12,13 +12,14 @@ class AdminDashboardController extends AbstractController
     /**
      * @Route("/admin", name="admin_dashboard")
      */
-    public function index(ObjectManager $manager, Statistics $statistics) {
+    public function index(ObjectManager $manager, Statistics $statistics)
+    {
         $stats = $statistics->getStats();
         $bestAlbums = $statistics->getAlbumsStats('DESC');
         $worstAlbums = $statistics->getAlbumsStats('ASC');
 
         return $this->render('admin/dashboard/index.html.twig', [
-            'stats' => $stats, 
+            'stats' => $stats,
             'bestAlbums' => $bestAlbums,
             'worstAlbums' => $worstAlbums
         ]);

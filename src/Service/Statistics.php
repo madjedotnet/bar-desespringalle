@@ -4,35 +4,43 @@ namespace App\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
-class Statistics {
+class Statistics
+{
 
     private $manager;
 
-    public function __construct(ObjectManager $manager) {
+    public function __construct(ObjectManager $manager)
+    {
         $this->manager = $manager;
     }
 
-    public function getStats() {
+    public function getStats()
+    {
         $users = $this->getUsersCount();
         $albums = $this->getAlbumsCount();
         $comments = $this->getCommentsCount();
+        $likes = $this->getLikesCount();
 
-        return compact('users', 'albums', 'comments');
+        return compact('users', 'albums', 'comments', 'likes');
     }
 
-    public function getUsersCount() {
+    public function getUsersCount()
+    {
         return $this->manager->createQuery('SELECT COUNT(u) FROM App\Entity\User u')->getSingleScalarResult();
     }
 
-    public function getAlbumsCount() {
+    public function getAlbumsCount()
+    {
         return $this->manager->createQuery('SELECT COUNT(a) FROM App\Entity\Album a')->getSingleScalarResult();
     }
 
-    public function getCommentsCount() {
+    public function getCommentsCount()
+    {
         return $this->manager->createQuery('SELECT COUNT(c) FROM App\Entity\Comment c')->getSingleScalarResult();
     }
 
-    public function getAlbumsStats($direction) {
+    public function getAlbumsStats($direction)
+    {
         return $this->manager->createQuery(
             'SELECT COUNT(c.id) AS compte, a.title, a.id, u.firstName, u.picture 
             FROM App\Entity\Comment c 
@@ -41,7 +49,12 @@ class Statistics {
             GROUP BY a 
             ORDER BY compte ' . $direction
         )
-        ->setMaxResults(5)
-        ->getResult();
+            ->setMaxResults(5)
+            ->getResult();
+    }
+
+    public function getLikesCount()
+    {
+        return $this->manager->createQuery('SELECT COUNT(l) FROM App\Entity\AlbumLike l')->getSingleScalarResult();
     }
 }
