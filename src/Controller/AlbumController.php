@@ -18,12 +18,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\AlbumLikeRepository;
+use App\Entity\AlbumLike;
 
-class AlbumController extends AbstractController {
+class AlbumController extends AbstractController
+{
     /**
      * @Route("/albums", name="albums_index")
      */
-    public function index(AlbumRepository $repo) 
+    public function index(AlbumRepository $repo)
     {
         $albums = $repo->findAll();
 
@@ -40,15 +43,16 @@ class AlbumController extends AbstractController {
      * 
      * @return Response
      */
-    public function create(Request $request, ObjectManager $manager) {
+    public function create(Request $request, ObjectManager $manager)
+    {
         $album = new Album();
 
         $form = $this->createForm(AlbumType::class, $album);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            foreach($album->getPictures() as $picture) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($album->getPictures() as $picture) {
                 $picture->setAlbum($album);
                 $manager->persist($picture);
             }
@@ -83,13 +87,14 @@ class AlbumController extends AbstractController {
      * @param ObjectManager $manager
      * @return Response
      */
-    public function show($slug, Album $album, Request $request, ObjectManager $manager) {
+    public function show($slug, Album $album, Request $request, ObjectManager $manager)
+    {
         $comment = new Comment();
 
         $form = $this->createForm(CommentType::class, $comment);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $comment->setAlbum($album)
                 ->setAuthor($this->getUser());
 
@@ -97,7 +102,7 @@ class AlbumController extends AbstractController {
             $manager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 "Votre commentaire a été ajouté..."
             );
         }
@@ -119,14 +124,15 @@ class AlbumController extends AbstractController {
      * @param ObjectManager $manager
      * @return Response
      */
-    public function edit(Album $album, Request $request, ObjectManager $manager) {
+    public function edit(Album $album, Request $request, ObjectManager $manager)
+    {
         $form = $this->createForm(AlbumType::class, $album);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             dump($album);
-            foreach($album->getPictures() as $picture) {
+            foreach ($album->getPictures() as $picture) {
                 $picture->setAlbum($album);
                 $manager->persist($picture);
             }
@@ -150,7 +156,7 @@ class AlbumController extends AbstractController {
         ]);
     }
 
-    
+
     /**
      * Permet de supprimer un album
      * 
@@ -161,15 +167,69 @@ class AlbumController extends AbstractController {
      * @param ObjectManager $manager
      * @return Response
      */
-    public function delete(Album $album, ObjectManager $manager) {
+    public function delete(Album $album, ObjectManager $manager)
+    {
         $manager->remove($album);
         $manager->flush();
 
         $this->addFlash(
-            'succes', 
+            'succes',
             "L'album <strong>{$album->getTitle()}</strong> a bien été supprimé !"
         );
 
         return $this->redirectToRoute("albums_index");
+    }
+
+    /**
+     * Permet de liker ou unliker un article
+     * 
+     * @Route("/album/{id}/like", name="album_like")
+     *
+     * @param Album $album
+     * @param ObjectManager $manager
+     * @param AlbumLikeRepository $likeRepo
+     * @return Response
+     */
+    public function like(Album $album, ObjectManager $manager, AlbumLikeRepository $likeRepo) : Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) return $this->json([
+            'code' => 403,
+            'message' => 'Unauthorized'
+        ], 403);
+
+        if ($album->isLikedByUser($user)) {
+            $like = $likeRepo->findOneBy([
+                'album' => $album,
+                'user' => $user
+            ]);
+
+            $manager->remove($like);
+            $manager->flush();
+
+            return $this->json([
+                'code' => 200,
+                'message' => 'Like supprimé',
+                'likes' => $likeRepo->count([
+                    'album' => $album
+                ])
+            ], 200);
+        }
+
+        $like = new AlbumLike();
+        $like->setAlbum($album)
+            ->setUser($user);
+
+        $manager->persist($like);
+        $manager->flush();
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Like ajouté',
+            'likes' => $likeRepo->count([
+                'album' => $album
+            ])
+        ], 200);
     }
 }
