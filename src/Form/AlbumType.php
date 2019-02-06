@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class AlbumType extends ApplicationType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -32,6 +33,12 @@ class AlbumType extends ApplicationType {
                 "Taper une description pour ce nouvel album !"))
             ->add(
                 'creationDate')
+                ->add('photos',
+                FileType::class, [
+                    'mapped' => false,
+                    'label' => 'Please choose your photos...',
+                    'multiple' => true
+                ])
             ->add(
                 'pictures', 
                 CollectionType::class, [

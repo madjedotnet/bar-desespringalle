@@ -52,10 +52,27 @@ class AlbumController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($album->getPictures() as $picture) {
+            $files = $request->files->get('album')['photos'];
+            $uploadsDirectory = $this->getParameter('uploads_directory');
+
+            foreach($files as $file) 
+            {
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+                $file->move(
+                    $uploadsDirectory, 
+                    $fileName
+                );
+
                 $picture->setAlbum($album);
+                $picture->setLocation($fileName);
                 $manager->persist($picture);
             }
+            
+            // foreach ($album->getPictures() as $picture) {
+            //     $picture->setAlbum($album);
+            //     $manager->persist($picture);
+            // }
 
             $album->setAuthor($this->getUser());
 
