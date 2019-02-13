@@ -6,8 +6,11 @@ use App\Entity\Album;
 use App\Entity\Comment;
 use App\Entity\Picture;
 use App\Form\AlbumType;
+use App\Entity\AlbumLike;
 use App\Form\CommentType;
+use App\Entity\UploadedPicture;
 use App\Repository\AlbumRepository;
+use App\Repository\AlbumLikeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,8 +21,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Repository\AlbumLikeRepository;
-use App\Entity\AlbumLike;
 
 class AlbumController extends AbstractController
 {
@@ -57,6 +58,9 @@ class AlbumController extends AbstractController
 
             foreach($files as $file) 
             {
+                $picture = new Picture();
+            
+                
                 $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
                 $file->move(
@@ -66,6 +70,9 @@ class AlbumController extends AbstractController
 
                 $picture->setAlbum($album);
                 $picture->setLocation($fileName);
+                $picture->setCaption($fileName);
+                $picture->setDisposition($fileName);
+                
                 $manager->persist($picture);
             }
             

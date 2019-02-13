@@ -45,7 +45,7 @@
     <div class="row">
         {% for picture in album.pictures %}
         <div class="col-md-3">
-            <img class="d-block w-100 mb-3" src="{{ picture.location }}" alt="">
+            <img class="d-block w-100 mb-3" src="/uploads/{{ picture.location }}" alt="">
         </div>
         {% endfor %}
     </div>
