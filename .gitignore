@@ -21,3 +21,7 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> contenu du repertoire uploads ###
+/public/uploads/
+###< contenu du repertoire uploads ###
