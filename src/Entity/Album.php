@@ -73,7 +73,7 @@ class Album
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\AlbumLike", mappedBy="album")
+     * @ORM\OneToMany(targetEntity="App\Entity\AlbumLike", mappedBy="album", orphanRemoval=true)
      */
     private $likes;
 

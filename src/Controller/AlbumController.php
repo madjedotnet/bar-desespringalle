@@ -59,7 +59,6 @@ class AlbumController extends AbstractController
             foreach($files as $file) 
             {
                 $picture = new Picture();
-            
                 
                 $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
@@ -72,7 +71,7 @@ class AlbumController extends AbstractController
                 $picture->setLocation($fileName);
                 $picture->setCaption($fileName);
                 $picture->setDisposition($fileName);
-                
+
                 $manager->persist($picture);
             }
             
@@ -155,11 +154,35 @@ class AlbumController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($album);
-            foreach ($album->getPictures() as $picture) {
+//DEBUT
+            $files = $request->files->get('album')['photos'];
+            $uploadsDirectory = $this->getParameter('uploads_directory');
+
+            foreach ($files as $file) {
+                $picture = new Picture();
+
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+                $file->move(
+                    $uploadsDirectory,
+                    $fileName
+                );
+
                 $picture->setAlbum($album);
+                $picture->setLocation($fileName);
+                $picture->setCaption($fileName);
+                $picture->setDisposition($fileName);
+
                 $manager->persist($picture);
             }
+// FIN
+
+//BEGUN
+            foreach ($album->getPictures() as $pic) {
+                $pic->setAlbum($album);
+                $manager->persist($pic);
+            }
+//END
 
             $manager->persist($album);
             $manager->flush();
