@@ -21,6 +21,11 @@ div.album-title {
     }
 }
 
+div.album_pictures {
+    width: 100%;
+    display: block;
+}
+
 .avatar {
     max-width: 128px;
     max-height: 128px;
@@ -54,4 +59,26 @@ span.like i {
     .btn {
         color: white;
     }
+}
+
+.card.bg-light.editable {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.card.bg-light.editable img {
+  width: 100%;
+  height: auto;
+}
+
+.card.bg-light.editable .btn {
+  position: absolute;
+  top: 0%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
 }

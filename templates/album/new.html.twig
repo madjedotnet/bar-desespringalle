@@ -2,17 +2,37 @@
 
 {% block title %}Création d'un nouvel album !{% endblock %}
 
-{% form_theme form 'album/_collection.html.twig' %}
 
 {% block body %}
 <div class="container">
     <h1 class="my-3">Créer un nouvel album</h1>
     <div class="row">
         {{ form_start(form) }}
-        {{ form_widget(form) }}
-        
-        <button type="submit" class="btn btn-primary">Créer l'album</button>
+            <div class="col-md-8">
+                <div class="row">
+                    <div>{{ form_row(form.title) }}</div>
+                    <div>{{ form_row(form.slug) }}</div>
+                    <div>{{ form_row(form.albumDate) }}</div>
+                    <div>{{ form_row(form.content) }}</div>
+                    <div>{{ form_row(form.creationDate) }}</div>
+                    <div>{{ form_row(form.mediaFiles) }}</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row flex justify-content-start flex-wrap">
+                    {% for media in album.medias %}
+                    <div class="col" style="width: 100px; flex: none; margin: 5px;">
+                        <img src="{{ vich_uploader_asset(media, 'mediaFile') | imagine_filter('thumb') }}" width="100" alt="">
+                        <a href="{{ path('', {id: media.id}) }}" class="btn btn-danger" data-delete
+                            data-token="{{ csrf_token('delete' ~ media.id) }}">X</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {{ form_rest(form) }}
+        <button class="btn btn-primary">{{ button|default('Enregistrer') }}</button>
         {{ form_end(form) }}
+
     </div>
 </div>
 {% endblock %}

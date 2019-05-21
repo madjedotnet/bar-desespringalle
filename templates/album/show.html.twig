@@ -43,13 +43,14 @@
         </div>
     </div>
     <div class="row">
-        {% for picture in album.pictures %}
+        {% for media in album.medias %}
         <div class="col-md-3">
-            <img class="d-block w-100 mb-3" src="/uploads/{{ picture.location }}" alt="">
+            <img class="d-block w-100 mb-3" src="/uploads/" alt="">
         </div>
         {% endfor %}
     </div>
     <!-- TODO ajout des likes sur les albums ici -->
+    <!-- |slice(0, 3) -->
     <div class="alert alert-info">
         <h4 class="alert-heading text-center">
             <div class="row align-items-center">

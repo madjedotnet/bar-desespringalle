@@ -1,0 +1,7 @@
+easy_admin:
+  design:
+    menu:
+      - label: 'Album photo'
+        icon: 'newspaper-o'
+        children:
+          - {entity: 'User', icon: 'newspaper-o', label: 'Utilisateurs'}

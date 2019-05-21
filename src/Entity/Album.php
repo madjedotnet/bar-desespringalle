@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use App\Entity\User;
+use App\Entity\Media;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
 // validation du formulaire
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -56,12 +57,6 @@ class Album
     private $creationDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="album", orphanRemoval=true)
-     * @Assert\Valid()
-     */
-    private $pictures;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="albums")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -77,11 +72,23 @@ class Album
      */
     private $likes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="album", orphanRemoval=true, cascade={"persist"})
+     */
+    private $medias;
+
+    /**
+     * @Assert\All({
+     *   @Assert\Image(mimeTypes="image/jpeg")
+     * })
+     */
+    private $mediaFiles;
+
     public function __construct()
     {
-        $this->pictures = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->medias = new ArrayCollection();
     }
 
     /**
@@ -159,37 +166,6 @@ class Album
     public function setCreationDate(\DateTimeInterface $creationDate) : self
     {
         $this->creationDate = $creationDate;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Picture[]
-     */
-    public function getPictures() : Collection
-    {
-        return $this->pictures;
-    }
-
-    public function addPicture(Picture $picture) : self
-    {
-        if (!$this->pictures->contains($picture)) {
-            $this->pictures[] = $picture;
-            $picture->setAlbum($this);
-        }
-
-        return $this;
-    }
-
-    public function removePicture(Picture $picture) : self
-    {
-        if ($this->pictures->contains($picture)) {
-            $this->pictures->removeElement($picture);
-            // set the owning side to null (unless already changed)
-            if ($picture->getAlbum() === $this) {
-                $picture->setAlbum(null);
-            }
-        }
 
         return $this;
     }
@@ -283,5 +259,61 @@ class Album
         }
 
         return false;
+    }
+
+    /**
+     * @return Collection|Media[]
+     */
+    public function getMedias(): Collection
+    {
+        return $this->medias;
+    }
+
+    public function addMedia(Media $media): self
+    {
+        var_dump($media);
+        if (!$this->medias->contains($media)) {
+            $this->medias[] = $media;
+            $media->setAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedia(Media $media): self
+    {
+        if ($this->medias->contains($media)) {
+            $this->medias->removeElement($media);
+            // set the owning side to null (unless already changed)
+            if ($media->getAlbum() === $this) {
+                $media->setAlbum(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMediaFiles()
+    {
+        return $this->mediaFiles;
+    }
+
+    /**
+     * @param mixed $mediaFiles
+     * @return Album
+     */
+    public function setMediaFiles($mediaFiles): self
+    {
+        foreach($mediaFiles as $mediaFile) {
+            $media = new Media();
+            $media->setMediaFile($mediaFile);
+            $this->addMedia($media);
+        }
+
+        $this->mediaFiles = $mediaFiles;
+        return $this;
     }
 }

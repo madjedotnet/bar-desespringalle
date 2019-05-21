@@ -3,13 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Album;
-use App\Form\PictureType;
 use App\Form\ApplicationType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class AlbumType extends ApplicationType {
@@ -18,8 +16,7 @@ class AlbumType extends ApplicationType {
             ->add(
                 'title', 
                 TextType::class, 
-                $this->getConfiguration("Titre", "Taper un titre pour ce nouvel album !")
-            )
+                $this->getConfiguration("Titre", "Taper un titre pour ce nouvel album !"))
             ->add(
                 'slug', 
                 TextType::class, 
@@ -33,20 +30,10 @@ class AlbumType extends ApplicationType {
                 "Taper une description pour ce nouvel album !"))
             ->add(
                 'creationDate')
-                ->add('photos',
-                FileType::class, [
-                    'mapped' => false,
-                    'label' => 'Please choose your photos...',
-                    'multiple' => true
-                ])
-            ->add(
-                'pictures', 
-                CollectionType::class, [
-                    'entry_type' => PictureType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true
-                ]
-            )
+            ->add('mediaFiles', FileType::class, [
+                'required' => false,
+                'multiple' => true
+            ])
         ;
     }
 

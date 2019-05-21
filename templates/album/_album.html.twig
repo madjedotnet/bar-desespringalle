@@ -2,16 +2,30 @@
 <div class="col-md-4">
     <div class="card bg-light mb-3">
         <div class="card-header text-center">
+            <h2>
             <a href="{{ url }}">
                 {{ album.title }}
             </a>
-            <small>par</small>
+            </h2>
         </div>
         <div class="card-body">
-            <h4 class="card-title">{{ album.albumDate | date('d-m-Y H:i:s') }}</h4>
+            <div class="row">
+                {% if album.medias %}
+                    <div class="card-img-top">
+                        {% for media in album.medias|slice(0, 3) %}
+                        <div class="col-md-4">
+                            <img class="d-block w-100 mb-3" src="/uploads/" alt="">
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
             <p class="card-text">
                 {{ album.content }}
             </p>
+            <div class="row">
+                <div class="col">Créé le {{ album.albumDate | date('d-m-Y H:i:s') }}<small> par {{ album.author.fullName }}</small></div>
+            </div>
             <a href="{{ url }}" class="btn btn-primary">En voir plus !</a>
             {% if app.user and app.user == album.author %}
             <a href="{{ path('albums_edit', {'slug': album.slug}) }}" class="btn btn-secondary">Modifier</a>

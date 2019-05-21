@@ -25,3 +25,7 @@ yarn-error.log
 ###> contenu du repertoire uploads ###
 /public/uploads/
 ###< contenu du repertoire uploads ###
+###> liip/imagine-bundle ###
+/public/media/cache/
+/public/media/
+###< liip/imagine-bundle ###

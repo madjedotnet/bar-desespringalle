@@ -65,7 +65,7 @@ class AdminAlbumController extends AbstractController {
      * @return Response
      */
     public function delete(Album $album, ObjectManager $manager) {
-        if(count($album->getComments()) > 0 || count($album->getPictures()) > 0)  {
+        if(count($album->getComments()) > 0 || count($album->getMedias()) > 0)  {
             $this->addFlash(
                 'warning',
                 "Vous ne pouvez pas supprimer un album qui a des photos ou des commentaires !"

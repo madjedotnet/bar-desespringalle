@@ -79,7 +79,7 @@
                         {% for album in bestAlbums %}
                         <tr>
                             <td>{{album.id}}</td>
-                            <td><img src="{{album.picture}}" alt="" class="avatar avatar-micro"> {{album.firstName}}</td>
+                            <td><img src="{{album.media}}" alt="" class="avatar avatar-micro"> {{album.firstName}}</td>
                             <td class="text-center">
                                 <span class="badge badge-dark">{{album.compte}}</span>
                             </td>
@@ -104,7 +104,7 @@
                         {% for album in worstAlbums %}
                         <tr>
                             <td>{{album.id}}</td>
-                            <td><img src="{{album.picture}}" alt="" class="avatar avatar-micro"> {{album.firstName}}</td>
+                            <td><img src="{{album.media}}" alt="" class="avatar avatar-micro"> {{album.firstName}}</td>
                             <td class="text-center">
                                 <span class="badge badge-dark">{{album.compte}}</span>
                             </td>

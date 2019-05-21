@@ -4,21 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Album;
 use App\Entity\Comment;
-use App\Entity\Picture;
 use App\Form\AlbumType;
 use App\Entity\AlbumLike;
 use App\Form\CommentType;
-use App\Entity\UploadedPicture;
 use App\Repository\AlbumRepository;
 use App\Repository\AlbumLikeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -53,32 +48,6 @@ class AlbumController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $files = $request->files->get('album')['photos'];
-            $uploadsDirectory = $this->getParameter('uploads_directory');
-
-            foreach($files as $file) 
-            {
-                $picture = new Picture();
-                
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-
-                $file->move(
-                    $uploadsDirectory, 
-                    $fileName
-                );
-
-                $picture->setAlbum($album);
-                $picture->setLocation($fileName);
-                $picture->setCaption($fileName);
-                $picture->setDisposition($fileName);
-
-                $manager->persist($picture);
-            }
-            
-            // foreach ($album->getPictures() as $picture) {
-            //     $picture->setAlbum($album);
-            //     $manager->persist($picture);
-            // }
 
             $album->setAuthor($this->getUser());
 
@@ -154,35 +123,6 @@ class AlbumController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//DEBUT
-            $files = $request->files->get('album')['photos'];
-            $uploadsDirectory = $this->getParameter('uploads_directory');
-
-            foreach ($files as $file) {
-                $picture = new Picture();
-
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-
-                $file->move(
-                    $uploadsDirectory,
-                    $fileName
-                );
-
-                $picture->setAlbum($album);
-                $picture->setLocation($fileName);
-                $picture->setCaption($fileName);
-                $picture->setDisposition($fileName);
-
-                $manager->persist($picture);
-            }
-// FIN
-
-//BEGUN
-            foreach ($album->getPictures() as $pic) {
-                $pic->setAlbum($album);
-                $manager->persist($pic);
-            }
-//END
 
             $manager->persist($album);
             $manager->flush();

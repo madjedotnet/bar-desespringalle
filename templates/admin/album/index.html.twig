@@ -22,7 +22,7 @@
                 <td>{{album.title}}</td>
                 <td><img src="{{album.author.picture}}" alt="Avatar de {{album.author.fullName}}" class="avatar avatar-mini mr-2"></i>{{album.author.fullName}}</td>
                 <td class="text-center">{{album.creationDate|date('d-m-Y H:i:s')}}</td>
-                <td class="text-center">{{album.pictures | length}}</td>
+                <td class="text-center">{{album.medias | length}}</td>
                 <td class="text-center">
                     <a href="{{ path('admin_albums_edit', {'id': album.id}) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                     <a href="{{ path('admin_albums_delete', {'id': album.id}) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
