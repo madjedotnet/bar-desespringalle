@@ -45,7 +45,8 @@
     <div class="row">
         {% for media in album.medias %}
         <div class="col-md-3">
-            <img class="d-block w-100 mb-3" src="/uploads/" alt="">
+            <img src="{{ vich_uploader_asset(media, 'mediaFile') | imagine_filter('medium') }}" alt="card-img-top"
+                style="width: 100%; height:auto;">
         </div>
         {% endfor %}
     </div>

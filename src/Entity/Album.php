@@ -271,7 +271,6 @@ class Album
 
     public function addMedia(Media $media): self
     {
-        var_dump($media);
         if (!$this->medias->contains($media)) {
             $this->medias[] = $media;
             $media->setAlbum($this);

@@ -47,13 +47,11 @@ class Media
 
     public function getFilename(): ?string
     {
-        var_dump('nom de fichier : ' . $this->filename);
         return $this->filename;
     }
 
     public function setFilename(string $filename): self
     {
-        var_dump('nom du fichier : ' . $filename);
         $this->filename = $filename;
 
         return $this;

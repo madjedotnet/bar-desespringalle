@@ -68,7 +68,7 @@ class AdminAlbumController extends AbstractController {
         if(count($album->getComments()) > 0 || count($album->getMedias()) > 0)  {
             $this->addFlash(
                 'warning',
-                "Vous ne pouvez pas supprimer un album qui a des photos ou des commentaires !"
+                "Vous ne pouvez pas supprimer un album qui a des photos, vidéos ou des commentaires !"
             );
         } else {
             $manager->remove($album);

@@ -18,7 +18,6 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .addEntry('js/app', './assets/js/app.js')
-    .addEntry('js/album', './assets/js/album.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
     .addStyleEntry('css/app', './assets/css/app.scss')
