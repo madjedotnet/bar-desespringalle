@@ -269,6 +269,16 @@ class Album
         return $this->medias;
     }
 
+    public function getMedia(): ?Media
+    {
+        if ($this->medias->isEmpty()) {
+            return null;
+        }
+        else {
+            return $this-> medias->first();
+        }
+    }
+
     public function addMedia(Media $media): self
     {
         if (!$this->medias->contains($media)) {

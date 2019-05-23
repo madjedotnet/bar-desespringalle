@@ -14,7 +14,7 @@
                     <div class="card-img-top">
                         {% for media in album.medias|slice(0, 3) %}
                         <div class="col-md-4">
-                            <img src="{{ vich_uploader_asset(media, 'mediaFile') | imagine_filter('thumb') }}" alt="card-img-top"
+                            <img src="{{ vich_uploader_asset(album.media, 'mediaFile') | imagine_filter('thumb') }}" alt="card-img-top"
                                 style="width: 100%; height: auto;">
                         </div>
                         {% endfor %}
