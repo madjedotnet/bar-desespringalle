@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Entity\User;
 use App\Entity\Media;
+use App\Entity\Family;
+use App\Entity\Comment;
+// validation du formulaire
+use App\Entity\AlbumLike;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
-// validation du formulaire
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,7 +18,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AlbumRepository")
- * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(
  *      fields={"title"},
  *      message="Un album a déjà ce nom, veuillez le changer..."
@@ -84,11 +86,23 @@ class Album
      */
     private $mediaFiles;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Family", inversedBy="albums")
+     */
+    private $families;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Family", inversedBy="albums")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->medias = new ArrayCollection();
+        $this->families = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -323,6 +337,60 @@ class Album
         }
 
         $this->mediaFiles = $mediaFiles;
+        return $this;
+    }
+
+    /**
+     * @return Collection|Family[]
+     */
+    public function getFamilies(): Collection
+    {
+        return $this->families;
+    }
+
+    public function addFamily(Family $family): self
+    {
+        if (!$this->families->contains($family)) {
+            $this->families[] = $family;
+            $family->addAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFamily(Family $family): self
+    {
+        if ($this->families->contains($family)) {
+            $this->families->removeElement($family);
+            $family->removeAlbum($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+        }
+
         return $this;
     }
 }

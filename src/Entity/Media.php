@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Album;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -35,7 +36,7 @@ class Media
     private $filename;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Album", inversedBy="medias")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Album", inversedBy="pictures")
      * @ORM\JoinColumn(nullable=false)
      */
     private $album;

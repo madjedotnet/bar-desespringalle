@@ -96,12 +96,18 @@ class User implements UserInterface {
      */
     private $albumLikes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Album", mappedBy="users")
+     */
+    private $inAlbums;
+
     public function __construct()
     {
         $this->albums = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->albumLikes = new ArrayCollection();
+        $this->inAlbums = new ArrayCollection();
     }
 
     public function getFullName() {
@@ -370,5 +376,33 @@ class User implements UserInterface {
     public function __toString()
     {
         return $this->firstName;
+    }
+
+    /**
+     * @return Collection|Album[]
+     */
+    public function getInAlbums(): Collection
+    {
+        return $this->inAlbums;
+    }
+
+    public function addInAlbum(Album $inAlbum): self
+    {
+        if (!$this->inAlbums->contains($inAlbum)) {
+            $this->inAlbums[] = $inAlbum;
+            $inAlbum->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInAlbum(Album $inAlbum): self
+    {
+        if ($this->inAlbums->contains($inAlbum)) {
+            $this->inAlbums->removeElement($inAlbum);
+            $inAlbum->removeUser($this);
+        }
+
+        return $this;
     }
 }

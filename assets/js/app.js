@@ -7,7 +7,6 @@ require('bootstrap');
 // Suppression des éléments
 document.querySelectorAll('[data-delete]').forEach(a => {
     a.addEventListener('click', e => {
-        alert("coucou");
         e.preventDefault()
         fetch(a.getAttribute('href'), {
             method: 'DELETE',

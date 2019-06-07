@@ -8,7 +8,7 @@
 
     <div class="row">
         {% for album in albums %}
-            {% include 'album/_album.html.twig' %}
+            {% include 'album/_album.html.twig' with {'album':album}%}
         {% endfor %}
     </div>
 </div>
