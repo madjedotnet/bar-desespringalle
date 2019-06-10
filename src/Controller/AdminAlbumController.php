@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Album;
+use App\Entity\Media;
 use App\Form\AlbumType;
 use App\Service\Paginator;
 use App\Repository\AlbumRepository;

@@ -27,37 +27,54 @@
             </div>
         </div>
         <div class="col">
-            <div class="card bg-light">
-                <div class="card-header">
-                    <h4 class="card-title">Les commentaires</h4>
+            <div class="row">
+                <div class="card bg-light">
+                    <div class="card-header">
+                        <h4 class="card-title">Les photos, vidéos...</h4>
+                    </div>
+                    <div class="card-body">
+                        {% for media in album.medias %}
+                        <div class="col" style="width: 100px; flex: none; margin: 5px;">
+                            <img src="{{ vich_uploader_asset(media, 'mediaFile') | imagine_filter('thumb') }}" width="100" alt="">
+                            <a href="{{ path('admin_media_delete', {id: media.id}) }}" class="btn btn-danger" data-delete
+                                data-token="{{ csrf_token('delete' ~ media.id) }}">Supprimer</a>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Auteur</th>
-                                <th>Date</th>
-                                <th>Commentaire</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for comment in album.comments %}
+            <div class="row">
+                <div class="card bg-light">
+                    <div class="card-header">
+                        <h4 class="card-title">Les commentaires</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>{{comment.id}}</td>
-                                    <td>{{comment.author.firstname}}</td>
-                                    <td>{{comment.createdAt | date('d-m-Y H:i:s') }}</td>
-                                    <td>{{comment.content}}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-primary">
-                                            <i class="fas fa-pen"></i>
-                                        </a>
-                                    </td>
+                                    <th>ID</th>
+                                    <th>Auteur</th>
+                                    <th>Date</th>
+                                    <th>Commentaire</th>
+                                    <th></th>
                                 </tr>
-                            {% endfor %}
-                        </thead>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {% for comment in album.comments %}
+                                    <tr>
+                                        <td>{{comment.id}}</td>
+                                        <td>{{comment.author.firstname}}</td>
+                                        <td>{{comment.createdAt | date('d-m-Y H:i:s') }}</td>
+                                        <td>{{comment.content}}</td>
+                                        <td>
+                                            <a href="#" class="btn btn-primary">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
