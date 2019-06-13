@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Album;
 use App\Entity\Family;
 use Symfony\Component\Form\AbstractType;
@@ -28,6 +29,11 @@ class AlbumType extends AbstractType
             ])
             ->add('mediaFiles', FileType::class, [
                 'required' => false,
+                'multiple' => true
+            ])
+            ->add('users', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'firstName',
                 'multiple' => true
             ])
         ;

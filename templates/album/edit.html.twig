@@ -1,23 +1,61 @@
-{% extends 'base.html.twig' %}
+{%  extends 'base.html.twig' %}
 
-{% block title %}Edit Album{% endblock %}
+{% block title %}Modification de l'album {{album.id}}{% endblock %}
+
+{% form_theme form _self %}
 
 {% block body %}
-    <h1>Edit Album</h1>
-    {% include 'album/_form.html.twig' with {'album':album, 'button_label':'Update'} %}
+<div class="container">
+    <h1 class="my-5">Modification de l'album "{{album.title}}".</h1>
 
-    <a href="{{ path('album_index') }}">back to list</a>
+    {{ form_start(form) }}
 
-    {% include 'album/_delete_form.html.twig' with {'album':album} %}
-{% endblock %}
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h4 class="card-title">Modifier l'album ?</h4>
+                </div>
+                <div class="card-body">
+                    {{ form_widget(form) }}
 
-{% block stylesheets%}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css">
-{% endblock %}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i>
+                        Enregister les modifications
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h4 class="card-title">Les photos, vidéos...</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for media in album.medias %}
+                            <div class="col" style="width: 100px; flex: none; margin: 5px;">
+                                <img src="{{ vich_uploader_asset(media, 'mediaFile') | imagine_filter('thumb') }}"
+                                    width="100" alt="">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-{% block javascripts%}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
-<script>
-    $('select').select2();
-</script>
-{% endblock %}
+        {{ form_end(form) }}
+
+    </div>
+    {% endblock %}
+
+    {% block stylesheets%}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css">
+    {% endblock %}
+
+    {% block javascripts%}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+    <script>
+        $('select').select2();
+    </script>
+    {% endblock %}

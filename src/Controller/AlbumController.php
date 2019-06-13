@@ -113,9 +113,6 @@ class AlbumController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $family = new Family();
-            // $album->addFamily($family);
-            // $this->getDoctrine()->getManager()->flush();
             $this->objectManager->flush();
 
             $this->addFlash('success', 'Album modifié avec succès');

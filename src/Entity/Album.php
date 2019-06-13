@@ -92,7 +92,7 @@ class Album
     private $families;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Family", inversedBy="albums")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="albums")
      */
     private $users;
 
