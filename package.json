@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "jquey": "0.0.1-security",
+        "lodash": "^4.17.14",
         "node-sass": "^4.11.0",
         "sass-loader": "^7.1.0",
         "yaml": "^1.6.0"

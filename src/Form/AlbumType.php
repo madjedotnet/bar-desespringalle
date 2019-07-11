@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class AlbumType extends AbstractType
 {
@@ -19,8 +20,12 @@ class AlbumType extends AbstractType
             ->add('slug')
             ->add('title')
             ->add('content')
-            ->add('albumDate')
-            ->add('creationDate')
+            ->add('albumDate', DateType::class, [
+                'widget' => 'single_text'
+            ])
+            ->add( 'creationDate', DateType::class, [
+                'widget' => 'single_text'
+            ])
             ->add('author')
             ->add('families', EntityType::class, [
                 'class' => Family::class,
