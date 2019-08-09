@@ -82,9 +82,9 @@ class User implements UserInterface {
     private $albums;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", inversedBy="users")
      */
-    private $userRoles;
+    private $roles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
@@ -104,7 +104,7 @@ class User implements UserInterface {
     public function __construct()
     {
         $this->albums = new ArrayCollection();
-        $this->userRoles = new ArrayCollection();
+        $this->roles = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->albumLikes = new ArrayCollection();
         $this->inAlbums = new ArrayCollection();
@@ -258,14 +258,14 @@ class User implements UserInterface {
         return $this;
     }
 
-    public function getRoles() {
-        $roles = $this->userRoles->map(function($role){
-            return $role->getTitle();
-        })->toArray();
-        $roles[] = 'ROLE_USER';
+    // public function getRoles() {
+    //     $rules = $this->roles->map(function($role){
+    //         return $role->getTitle();
+    //     })->toArray();
+    //     $rules[] = 'ROLE_USER';
 
-        return $roles;
-    }
+    //     return $rules;
+    // }
 
     public function getPassword() {
         return $this->hash;
@@ -286,26 +286,26 @@ class User implements UserInterface {
     /**
      * @return Collection|Role[]
      */
-    public function getUserRoles(): Collection
+    public function getRoles(): Collection
     {
-        return $this->userRoles;
+        return $this->roles;
     }
 
-    public function addUserRole(Role $userRole): self
+    public function addRole(Role $role): self
     {
-        if (!$this->userRoles->contains($userRole)) {
-            $this->userRoles[] = $userRole;
-            $userRole->addUser($this);
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+            $role->addUser($this);
         }
 
         return $this;
     }
 
-    public function removeUserRole(Role $userRole): self
+    public function removeRole(Role $role): self
     {
-        if ($this->userRoles->contains($userRole)) {
-            $this->userRoles->removeElement($userRole);
-            $userRole->removeUser($this);
+        if ($this->roles->contains($role)) {
+            $this->roles->removeElement($role);
+            $role->removeUser($this);
         }
 
         return $this;

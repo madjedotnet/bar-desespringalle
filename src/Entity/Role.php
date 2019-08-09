@@ -24,7 +24,7 @@ class Role
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="userRoles")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="roles")
      */
     private $users;
 
@@ -62,6 +62,7 @@ class Role
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
+            $user->addRole($this);
         }
 
         return $this;
@@ -71,8 +72,14 @@ class Role
     {
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
+            $user->removeRole($this);
         }
 
         return $this;
+    }
+
+    public function __toString() 
+    {
+        return $this->title;
     }
 }
