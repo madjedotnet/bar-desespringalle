@@ -1,0 +1,22 @@
+easy_admin:
+  entities:
+    Album:
+      class: App\Entity\Album
+      list:
+        fields:
+          - { property: 'title' }
+          - { property: 'albumDate' }
+          - { property: 'author' }
+      form:
+        fields:
+          - { property: 'title' }
+          - { property: 'albumDate' }
+          - { property: 'author' }
+          - { property: 'families', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Family' } }
+          #- { property: 'role', type: 'easyadmin_autocomplete' }
+          #- { property: 'role', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Category' } }
+
+          
+      # List the entity class name you want to manage
+      #- App\Entity\Product
+      #- App\Entity\Category

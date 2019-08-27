@@ -18,9 +18,8 @@ easy_admin:
           - { property: 'picture' }
           - { property: 'introduction' }
           - { property: 'description' }
-          - { property: 'role', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Role' }}
           #- { property: 'role', type: 'easyadmin_autocomplete' }
-          #- { property: 'role', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Category' } }
+          - { property: 'roles', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Role' } }
 
           
       # List the entity class name you want to manage

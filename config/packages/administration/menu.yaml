@@ -5,3 +5,4 @@ easy_admin:
         icon: 'newspaper-o'
         children:
           - {entity: 'User', icon: 'newspaper-o', label: 'Utilisateurs'}
+          - {entity: 'Album', icon: 'newspaper-o', label: 'Album photo'}

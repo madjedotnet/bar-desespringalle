@@ -1,0 +1,14 @@
+easy_admin:
+  entities:
+    Role:
+      class: App\Entity\Role
+      list:
+        fields:
+          - { property: 'title' }
+      form:
+        fields:
+          - { property: 'title' }
+          
+      # List the entity class name you want to manage
+      #- App\Entity\Product
+      #- App\Entity\Category
