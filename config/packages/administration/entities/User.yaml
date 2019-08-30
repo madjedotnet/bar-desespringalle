@@ -20,6 +20,7 @@ easy_admin:
           - { property: 'description' }
           #- { property: 'role', type: 'easyadmin_autocomplete' }
           - { property: 'roles', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Role' } }
+          - { property: 'families', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Family' } }
 
           
       # List the entity class name you want to manage

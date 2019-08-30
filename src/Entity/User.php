@@ -101,6 +101,11 @@ class User implements UserInterface {
      */
     private $inAlbums;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Family", inversedBy="users")
+     */
+    private $families;
+
     public function __construct()
     {
         $this->albums = new ArrayCollection();
@@ -108,6 +113,7 @@ class User implements UserInterface {
         $this->comments = new ArrayCollection();
         $this->albumLikes = new ArrayCollection();
         $this->inAlbums = new ArrayCollection();
+        $this->families = new ArrayCollection();
     }
 
     public function getFullName() {
@@ -258,14 +264,25 @@ class User implements UserInterface {
         return $this;
     }
 
-    // public function getRoles() {
-    //     $rules = $this->roles->map(function($role){
-    //         return $role->getTitle();
-    //     })->toArray();
-    //     $rules[] = 'ROLE_USER';
+    public function getRoles() {
+        $trace = debug_backtrace();
+        $caller = $trace[1];
+if ($caller['class'] === "Symfony\Component\Security\Core\Authentication\Provider\UserAuthenticationProvider")
+{
+        //die(var_dump($caller));
 
-    //     return $rules;
-    // }
+        $rules = $this->roles->map(function($role){
+            return $role->getTitle();
+        })->toArray();
+        $rules[] = 'ROLE_USER';
+
+        return $rules;
+    }
+    else {
+
+        return $this->roles;
+    }
+    }
 
     public function getPassword() {
         return $this->hash;
@@ -283,13 +300,13 @@ class User implements UserInterface {
 
     }
 
-    /**
-     * @return Collection|Role[]
-     */
-    public function getRoles(): Collection
-    {
-        return $this->roles;
-    }
+    // /**
+    //  * @return Collection|Role[]
+    //  */
+    // public function getRoles(): Collection
+    // {
+    //     return $this->roles;
+    // }
 
     public function addRole(Role $role): self
     {
@@ -401,6 +418,32 @@ class User implements UserInterface {
         if ($this->inAlbums->contains($inAlbum)) {
             $this->inAlbums->removeElement($inAlbum);
             $inAlbum->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Family[]
+     */
+    public function getFamilies(): Collection
+    {
+        return $this->families;
+    }
+
+    public function addFamily(Family $family): self
+    {
+        if (!$this->families->contains($family)) {
+            $this->families[] = $family;
+        }
+
+        return $this;
+    }
+
+    public function removeFamily(Family $family): self
+    {
+        if ($this->families->contains($family)) {
+            $this->families->removeElement($family);
         }
 
         return $this;

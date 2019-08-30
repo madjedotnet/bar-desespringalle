@@ -4,5 +4,8 @@ easy_admin:
       - label: 'Album photo'
         icon: 'newspaper-o'
         children:
-          - {entity: 'User', icon: 'newspaper-o', label: 'Utilisateurs'}
-          - {entity: 'Album', icon: 'newspaper-o', label: 'Album photo'}
+          - { entity: 'User', icon: 'user-o', label: 'Utilisateurs' }
+          - { entity: 'Album', icon: 'newspaper-o', label: 'Albums photo' }
+          - { entity: 'Family', icon: 'user-friends-o', label: 'Familles' }
+          - { icon: 'user-friends', label: 'Album', route: 'admin_albums_index' }
+          - { icon: 'user-o', label: 'Album', route: 'admin_albums_index' }

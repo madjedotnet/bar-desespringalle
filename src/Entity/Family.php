@@ -28,9 +28,15 @@ class Family
      */
     private $albums;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="families")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->albums = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,5 +85,33 @@ class Family
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addFamily($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeFamily($this);
+        }
+
+        return $this;
     }
 }
