@@ -82,9 +82,9 @@ class User implements UserInterface {
     private $albums;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Role", inversedBy="users")
+     * @ORM\Column(type="json")
      */
-    private $roles;
+    private $roles = [];
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
@@ -109,7 +109,7 @@ class User implements UserInterface {
     public function __construct()
     {
         $this->albums = new ArrayCollection();
-        $this->roles = new ArrayCollection();
+        $this->roles = new array();
         $this->comments = new ArrayCollection();
         $this->albumLikes = new ArrayCollection();
         $this->inAlbums = new ArrayCollection();
@@ -264,26 +264,6 @@ class User implements UserInterface {
         return $this;
     }
 
-    public function getRoles() {
-        $trace = debug_backtrace();
-        $caller = $trace[1];
-if ($caller['class'] === "Symfony\Component\Security\Core\Authentication\Provider\UserAuthenticationProvider")
-{
-        //die(var_dump($caller));
-
-        $rules = $this->roles->map(function($role){
-            return $role->getTitle();
-        })->toArray();
-        $rules[] = 'ROLE_USER';
-
-        return $rules;
-    }
-    else {
-
-        return $this->roles;
-    }
-    }
-
     public function getPassword() {
         return $this->hash;
     }
@@ -300,33 +280,34 @@ if ($caller['class'] === "Symfony\Component\Security\Core\Authentication\Provide
 
     }
 
-    // /**
-    //  * @return Collection|Role[]
-    //  */
-    // public function getRoles(): Collection
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    // public function addRole(Role $role): self
     // {
-    //     return $this->roles;
+    //     if (!$this->roles->contains($role)) {
+    //         $this->roles[] = $role;
+    //         $role->addUser($this);
+    //     }
+
+    //     return $this;
     // }
 
-    public function addRole(Role $role): self
-    {
-        if (!$this->roles->contains($role)) {
-            $this->roles[] = $role;
-            $role->addUser($this);
-        }
+    // public function removeRole(Role $role): self
+    // {
+    //     if ($this->roles->contains($role)) {
+    //         $this->roles->removeElement($role);
+    //         $role->removeUser($this);
+    //     }
 
-        return $this;
-    }
-
-    public function removeRole(Role $role): self
-    {
-        if ($this->roles->contains($role)) {
-            $this->roles->removeElement($role);
-            $role->removeUser($this);
-        }
-
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @return Collection|Comment[]

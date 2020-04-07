@@ -4,8 +4,9 @@ easy_admin:
       - label: 'Album photo'
         icon: 'newspaper-o'
         children:
-          - { entity: 'User', icon: 'user-o', label: 'Utilisateurs' }
+          - { entity: 'User', icon: 'id-badge', label: 'Utilisateurs' }
           - { entity: 'Album', icon: 'newspaper-o', label: 'Albums photo' }
-          - { entity: 'Family', icon: 'user-friends-o', label: 'Familles' }
-          - { icon: 'user-friends', label: 'Album', route: 'admin_albums_index' }
-          - { icon: 'user-o', label: 'Album', route: 'admin_albums_index' }
+          - { route: 'admin_albums_index', icon: 'newspaper-o', label: 'Albums photo' }
+          - { entity: 'Family', icon: 'users', label: 'Familles' }
+          - { entity: 'Role', icon: 'user-tag', label: 'Rôles' }
+          - { entity: 'Media', icon: 'user-tag', label: 'Médias' }

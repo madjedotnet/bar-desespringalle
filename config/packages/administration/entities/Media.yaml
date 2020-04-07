@@ -1,0 +1,18 @@
+easy_admin:
+  entities:
+    Media:
+      class: App\Entity\Media
+      list:
+        fields:
+          - { property: 'id' }
+          - { property: 'filename' }
+      form:
+        fields:
+          - { property: 'filename' }
+          #- { property: 'role', type: 'easyadmin_autocomplete' }
+          #- { property: 'role', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Category' } }
+
+          
+      # List the entity class name you want to manage
+      #- App\Entity\Product
+      #- App\Entity\Category
