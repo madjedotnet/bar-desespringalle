@@ -177,7 +177,11 @@
         "version": "v4.1.6"
     },
     "symfony/cache-contracts": {
+<<<<<<< HEAD
         "version": "v2.0.1"
+=======
+        "version": "v1.1.7"
+>>>>>>> 8d1682eea9c7b6b68dafac10bfb32db4b0aa813f
     },
     "symfony/config": {
         "version": "v4.1.6"
@@ -222,7 +226,11 @@
         "version": "v4.1.6"
     },
     "symfony/error-handler": {
+<<<<<<< HEAD
         "version": "v4.4.4"
+=======
+        "version": "v4.4.1"
+>>>>>>> 8d1682eea9c7b6b68dafac10bfb32db4b0aa813f
     },
     "symfony/event-dispatcher": {
         "version": "v4.1.6"
@@ -282,7 +290,11 @@
         }
     },
     "symfony/mime": {
+<<<<<<< HEAD
         "version": "v4.4.4"
+=======
+        "version": "v4.4.1"
+>>>>>>> 8d1682eea9c7b6b68dafac10bfb32db4b0aa813f
     },
     "symfony/monolog-bridge": {
         "version": "v4.1.6"
@@ -320,9 +332,12 @@
     "symfony/polyfill-intl-idn": {
         "version": "v1.13.1"
     },
+<<<<<<< HEAD
     "symfony/polyfill-intl-normalizer": {
         "version": "v1.13.1"
     },
+=======
+>>>>>>> 8d1682eea9c7b6b68dafac10bfb32db4b0aa813f
     "symfony/polyfill-mbstring": {
         "version": "v1.9.0"
     },
@@ -372,7 +387,11 @@
         "version": "v1.0.1"
     },
     "symfony/service-contracts": {
+<<<<<<< HEAD
         "version": "v2.0.1"
+=======
+        "version": "v1.1.8"
+>>>>>>> 8d1682eea9c7b6b68dafac10bfb32db4b0aa813f
     },
     "symfony/stopwatch": {
         "version": "v4.1.6"
@@ -405,7 +424,11 @@
         }
     },
     "symfony/translation-contracts": {
+<<<<<<< HEAD
         "version": "v2.0.1"
+=======
+        "version": "v1.1.7"
+>>>>>>> 8d1682eea9c7b6b68dafac10bfb32db4b0aa813f
     },
     "symfony/twig-bridge": {
         "version": "v4.1.6"
@@ -432,7 +455,11 @@
         "version": "v4.1.6"
     },
     "symfony/var-exporter": {
+<<<<<<< HEAD
         "version": "v4.4.4"
+=======
+        "version": "v4.4.1"
+>>>>>>> 8d1682eea9c7b6b68dafac10bfb32db4b0aa813f
     },
     "symfony/web-link": {
         "version": "v4.1.6"
